@@ -5,3 +5,5 @@
 /.vs
 /BlazorWebAppWithAuth.Client/obj
 /BlazorWebAppWithAuth/obj
+/BlazorWebAppWithAuth/bin/Debug/net10.0
+/BlazorWebAppWithAuth.Client/bin/Debug/net10.0
