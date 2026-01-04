@@ -60,6 +60,46 @@
 					</ul>
 				</li>
 			</ul>
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+						<i class="bi bi-stack"></i>
+						<span>Account</span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end text-nowrap px-2 m-2">
+						<AuthorizeView>
+							<Authorized>
+								<div class="nav-item px-3">
+									<NavLink class="nav-link" href="Account/Manage">
+										<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+									</NavLink>
+								</div>
+								<div class="nav-item px-3">
+									<form action="Account/Logout" method="post">
+										<AntiforgeryToken />
+										<input type="hidden" name="ReturnUrl" value="" />
+										<button type="submit" class="nav-link">
+											<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+										</button>
+									</form>
+								</div>
+							</Authorized>
+							<NotAuthorized>
+								<div class="nav-item px-3">
+									<NavLink class="nav-link" href="Account/Register">
+										<span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+									</NavLink>
+								</div>
+								<div class="nav-item px-3">
+									<NavLink class="nav-link" href="Account/Login">
+										<span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+									</NavLink>
+								</div>
+							</NotAuthorized>
+						</AuthorizeView>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 </nav>
