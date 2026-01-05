@@ -96,6 +96,20 @@
             }
         }
 
+        if (firstName != Input.FirstName || lastName != Input.LastName)
+        {
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+
+            var updateResult = await UserManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to update profile.", HttpContext);
+                return;
+            }
+        }
+
         await SignInManager.RefreshSignInAsync(user);
         RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
     }
