@@ -23,6 +23,16 @@
                 <label for="username" class="form-label">Username</label>
             </div>
             <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.FirstName" id="Input.FirstName" class="form-control" placeholder="Enter your first name" />
+                <label for="Input.FirstName" class="form-label">First Name</label>
+                <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.LastName" id="Input.LastName" class="form-control" placeholder="Enter your last name" />
+                <label for="Input.LastName" class="form-label">Last Name</label>
+                <ValidationMessage For="() => Input.LastName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.PhoneNumber" id="Input.PhoneNumber" class="form-control" placeholder="Enter your phone number" />
                 <label for="Input.PhoneNumber" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
@@ -36,6 +46,8 @@
     private ApplicationUser? user;
     private string? username;
     private string? phoneNumber;
+    private string? firstName;
+    private string? lastName;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -48,6 +60,7 @@
         Input ??= new();
 
         user = await UserManager.GetUserAsync(HttpContext.User);
+
         if (user is null)
         {
             RedirectManager.RedirectToInvalidUser(UserManager, HttpContext);
@@ -56,8 +69,12 @@
 
         username = await UserManager.GetUserNameAsync(user);
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
+        firstName = user.FirstName;
+        lastName = user.LastName;
 
         Input.PhoneNumber ??= phoneNumber;
+        Input.FirstName ??= firstName;
+        Input.LastName ??= lastName;
     }
 
     private async Task OnValidSubmitAsync()
@@ -71,6 +88,7 @@
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+
             if (!setPhoneResult.Succeeded)
             {
                 RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
@@ -84,6 +102,14 @@
 
     private sealed class InputModel
     {
+        [Required]
+        [Display(Name = "First Name")]
+        public string? FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string? LastName { get; set; }
+
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
