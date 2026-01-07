@@ -14,6 +14,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject ApplicationDbContext Context
 
 <PageTitle>Register</PageTitle>
 
@@ -110,6 +111,24 @@
         }
 
         Logger.LogInformation("User created a new account with password.");
+
+        if (Input.ProfilePicture != null)
+        {
+            try
+            {
+                var profilePic = await ImageHelper.GetImageUploadAsync(Input.ProfilePicture);
+                user.ProfilePicture = profilePic;
+
+                Context.Images.Add(profilePic);
+                Context.Users.Update(user);
+
+                await Context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
 
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
