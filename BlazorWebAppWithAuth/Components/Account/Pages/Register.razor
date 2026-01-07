@@ -22,7 +22,7 @@
 <div class="row">
     <div class="col-lg-6">
         <StatusMessage Message="@Message" />
-        <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
+        <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register" enctype="multipart/form-data" >
             <DataAnnotationsValidator />
             <h2>Create a new account.</h2>
             <hr />
@@ -51,6 +51,18 @@
                 <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label for="Input.ConfirmPassword">Confirm Password</label>
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+            </div>
+            <div class="mb-3 row">
+                <div class="col-lg-4">
+                    <img src="@ImageHelper.DefaultProfilePictureUrl" class="img-fluid" id="profile-pic-preview" />
+                </div>
+                <div class="col-lg-8">
+                    <label class="form-label" for="Input.ProfilePicture">
+                        Profile Picture
+                    </label>
+                    <input type="file" class="form-control" name="Input.ProfilePicture" accept=".jpg, .jpeg, .png, .svg, .gif"
+                           onchange="document.getElementById('profile-pic-preview').src = window.URL.createObjectURL(this.files[0])" />
+                </div>
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
@@ -168,5 +180,7 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+
+        public IFormFile? ProfilePicture { get; set; }
     }
 }
