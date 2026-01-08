@@ -4,7 +4,7 @@ namespace BlazorWebAppWithAuth.Helpers
 {
     public static class ImageHelper
     {
-        public static readonly string DefaultProfilePictureUrl = "/images/undraw_person.svg";
+        public static readonly string DefaultProfilePictureUrl = "/img/default-profile-picture.jpg";
 
         public static async Task<ImageUpload> GetImageUploadAsync(IFormFile file)
         {
