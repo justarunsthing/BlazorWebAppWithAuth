@@ -92,19 +92,27 @@
     {
         if (Input.ProfilePicture != null)
         {
-            var newProfilePic = await ImageHelper.GetImageUploadAsync(Input.ProfilePicture);
-            DbContext.Images.Add(newProfilePic);
-
-            var oldProfilePic = await DbContext.Images.FirstOrDefaultAsync(i => i.Id == user!.ProfilePictureId);
-
-            if (oldProfilePic != null)
+            try
             {
-                DbContext.Images.Remove(oldProfilePic);
-            }
+                var newProfilePic = await ImageHelper.GetImageUploadAsync(Input.ProfilePicture);
+                DbContext.Images.Add(newProfilePic);
 
-            user!.ProfilePictureId = newProfilePic.Id;
-            DbContext.Users.Update(user);
-            await DbContext.SaveChangesAsync();
+                var oldProfilePic = await DbContext.Images.FirstOrDefaultAsync(i => i.Id == user!.ProfilePictureId);
+
+                if (oldProfilePic != null)
+                {
+                    DbContext.Images.Remove(oldProfilePic);
+                }
+
+                user!.ProfilePictureId = newProfilePic.Id;
+                DbContext.Users.Update(user);
+                await DbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to update profile picture.", HttpContext);
+                return;
+            }
         }
 
         if (user is null)
