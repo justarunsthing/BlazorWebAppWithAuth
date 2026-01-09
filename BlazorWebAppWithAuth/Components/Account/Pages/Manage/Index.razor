@@ -37,6 +37,13 @@
                 <label for="Input.PhoneNumber" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
             </div>
+            <img src="@profilePictureUrl" class="img-fluid p-3 rounded" id="profile-pic-preview" />
+            <div class="form-floating mb-3">
+                <label for="Input.ProfilePicture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" name="Input.ProfilePicture" accept=".jpg, .jpeg, .png, .svg, .gif"
+                       onchange="document.getElementById('profile-pic-preview').src = window.URL.createObjectURL(this.files[0])"
+                />
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
     </div>
