@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Arun Pun",
+    "classifications": [
+      "Web",
+      "Blazor",
+      "WebAssembly"
+    ],
+    "identity": "ArunPun.BlazorWebAppIdentityLayout",
+    "icon": "icon.png",
+    "name": "Blazor Web App With Layout And Identity",
+    "shortName": "BlazorWebAppIdentityLayout",
+    "sourceName": "BlazorWebAppWithAuth",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    },
+    "preferNameDirectory": true,
+    "primaryOutputs": [
+      { "path": "BlazorWebAppWithAuth/BlazorWebAppWithAuth.csproj" },
+      { "path": "BlazorWebAppWithAuth.Client/BlazorWebAppWithAuth.Client.csproj" }
+    ],
+    "sources": [
+      {
+        "exclude": [
+          ".git/**",
+          ".github/**",
+          ".gitignore",
+          ".gitattributes",
+          ".template.config/**",
+          ".vs/**",
+          "**/bin/**",
+          "**/obj/**",
+          "README.md"
+        ]
+      }
+    ]
+  }
